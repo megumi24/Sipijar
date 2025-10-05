@@ -6,7 +6,12 @@ use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return Inertia::render('welcome', [
+        'config' => [
+            'telegram-login' => config('services.telegram.bot'),
+            'auth-url' => config('services.telegram.redirect'),
+        ],
+    ]);
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {

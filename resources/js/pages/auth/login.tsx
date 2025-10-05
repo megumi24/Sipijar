@@ -10,39 +10,13 @@ import { register } from '@/routes';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { useEffect, useRef } from 'react';
 
 interface LoginProps {
   status?: string;
   canResetPassword: boolean;
-  config: {
-    'telegram-login': string;
-    'auth-url': string;
-  };
 }
 
-export default function Login({
-  status,
-  canResetPassword,
-  config,
-}: LoginProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-widget.js?22';
-    script.async = true;
-    script.setAttribute('data-telegram-login', config['telegram-login']);
-    script.setAttribute('data-size', 'large');
-    script.setAttribute('data-userpic', 'false');
-    script.setAttribute('data-auth-url', config['auth-url']);
-    script.setAttribute('data-request-access', 'write');
-
-    if (containerRef.current) {
-      containerRef.current.innerHTML = ''; // clear if re-rendered
-      containerRef.current.appendChild(script);
-    }
-  }, [config]);
+export default function Login({ status, canResetPassword }: LoginProps) {
   return (
     <AuthLayout
       title="Log in to your account"
@@ -59,7 +33,6 @@ export default function Login({
           <>
             <div className="grid gap-6">
               <div className="grid gap-2">
-                <div ref={containerRef}></div>
                 <Label htmlFor="email">Email address</Label>
                 <Input
                   id="email"
