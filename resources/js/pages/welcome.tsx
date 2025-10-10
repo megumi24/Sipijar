@@ -42,7 +42,7 @@ export default function Welcome({ config }: WelcomeProps) {
         </header>
         <main className="flex w-full flex-1 flex-col">
           <iframe
-            src="http://metabase.sipijar.my.id/public/dashboard/da963482-4070-40e9-927c-9c827107e2ed"
+            src="https://metabase.sipijar.my.id/public/dashboard/da963482-4070-40e9-927c-9c827107e2ed"
             className="w-full flex-1 border-0"
             allowTransparency
           ></iframe>
