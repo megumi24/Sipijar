@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\DocRaw;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,6 +19,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::name('doc-raw.')->prefix('doc-raw')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('doc-raw/index');
+        })->name('index');
+        Route::get('{docRaw}/edit', function (DocRaw $docRaw) {
+            return inertia()->modal('doc-raw/edit', [
+                'title' => 'Edit Document',
+                'data' => $docRaw,
+            ], [
+                'redirect' => route('doc-raw.index'),
+            ]);
+        })->name('edit');
+    });
 });
 
 

@@ -28,6 +28,11 @@ export interface SharedData {
   auth: Auth;
   sidebarOpen: boolean;
   [key: string]: unknown;
+  modalData: {
+    modal: string;
+    data?: { title?: string; [key: string]: unknown };
+  } | null;
+  status: 'success' | null;
 }
 
 export interface User {
