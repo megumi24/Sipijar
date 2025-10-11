@@ -27,7 +27,7 @@ const DocRawIndex = () => {
 
       <div className="flex flex-col items-start gap-4 p-4">
         <div className="flex h-full w-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl bg-[var(--surface-card)] p-4">
-          <div className="mt-6 flex flex-col gap-8">
+          <div className="mt-6 flex flex-col gap-8 md:w-1/3">
             <SearchInput id="doc-raw-search" label="Cari document..." />
           </div>
           <DocRawDataTable params={{ search }}>
@@ -50,10 +50,6 @@ const DocRawIndex = () => {
                 </>
               )}
             ></Column>
-            <Column field="doc_type" header="Document Type"></Column>
-            <Column field="doc_category" header="Document Category"></Column>
-            <Column field="knowledge_code" header="Knowledge Code"></Column>
-            <Column field="upload_status" header="Upload Status"></Column>
             <Column
               field="title"
               header="Title"
@@ -72,6 +68,10 @@ const DocRawIndex = () => {
                 </>
               )}
             ></Column>
+            <Column field="doc_type" header="Document Type"></Column>
+            <Column field="doc_category" header="Document Category"></Column>
+            <Column field="knowledge_code" header="Knowledge Code"></Column>
+            <Column field="upload_status" header="Upload Status"></Column>
             <Column
               field="created_date"
               header="Created Date"
@@ -82,6 +82,8 @@ const DocRawIndex = () => {
             <Column
               field="verified"
               header="Verified"
+              frozen
+              alignFrozen="right"
               body={(rowData) => (
                 <Chip
                   label={rowData.verified ? 'Verified' : 'Unverified'}

@@ -14,16 +14,17 @@ const SearchInput = (
   return (
     <FloatLabel>
       <IconField>
+        <InputIcon>
+          <Search size={16} />
+        </InputIcon>
         <InputText
           value={raw.trim()}
           onInput={(event: ChangeEvent<HTMLInputElement>) => {
             onChange(event.target.value);
           }}
           {...props}
+          className="w-full"
         ></InputText>
-        <InputIcon>
-          <Search size={16} />
-        </InputIcon>
       </IconField>
       <label htmlFor={props.id} className="font-bold">
         {props.label ?? 'Cari'}

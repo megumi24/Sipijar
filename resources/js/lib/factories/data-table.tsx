@@ -85,6 +85,7 @@ export const dataTableFactory = <
           'Menampilkan {first}-{last} dari {totalRecords} items.'
         }
         lazy
+        scrollable
         loading={isLoading}
         onPage={onPageChanged}
         emptyMessage={
