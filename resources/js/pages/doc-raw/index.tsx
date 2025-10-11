@@ -2,6 +2,9 @@ import AppLayout from '@/layouts/app-layout';
 import { docRaw } from '@/routes';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import { Check, X } from 'lucide-react';
+import moment from 'moment';
+import { Chip } from 'primereact/chip';
 import { Column } from 'primereact/column';
 import { Tooltip } from 'primereact/tooltip';
 import DocRawDataTable from './doc-raw-data-table';
@@ -60,8 +63,38 @@ const DocRawIndex = () => {
               </>
             )}
           ></Column>
-          <Column field="created_date" header="Created Date"></Column>
-          <Column field="verified" header="Verified"></Column>
+          <Column
+            field="created_date"
+            header="Created Date"
+            body={(rowData) =>
+              moment(rowData.created_date as Date).format('LL')
+            }
+          ></Column>
+          <Column
+            field="verified"
+            header="Verified"
+            body={(rowData) => (
+              <Chip
+                label={rowData.verified ? 'Verified' : 'Unverified'}
+                className={rowData.verified ? '!bg-green-500' : '!bg-gray-500'}
+                icon={
+                  rowData.verified ? (
+                    <Check
+                      key={`verified-${rowData.id}-true`}
+                      size={16}
+                      className="mr-2"
+                    />
+                  ) : (
+                    <X
+                      key={`verified-${rowData.id}-false`}
+                      size={16}
+                      className="mr-2"
+                    />
+                  )
+                }
+              />
+            )}
+          ></Column>
         </DocRawDataTable>
       </div>
     </AppLayout>

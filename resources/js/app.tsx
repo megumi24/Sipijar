@@ -1,11 +1,14 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import moment from 'moment';
 import { PrimeReactProvider } from 'primereact/api';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 
 import '../css/app.css';
+
+import 'moment/dist/locale/id';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 const queryClient = new QueryClient();
@@ -19,6 +22,8 @@ declare global {
 
 // This code is for all users
 window.__TANSTACK_QUERY_CLIENT__ = queryClient;
+
+moment.locale('id');
 
 createInertiaApp({
   title: (title) => (title ? `${title} - ${appName}` : appName),
