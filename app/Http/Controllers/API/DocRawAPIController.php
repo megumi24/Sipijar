@@ -24,7 +24,8 @@ class DocRawAPIController extends Controller
         return DocRawResource::collection(
             DocRaw::when($search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('full_text', 'like', "%{$search}%");
+                    ->orWhere('full_text', 'like', "%{$search}%")
+                    ->orWhere('source_filename', 'like', "%{$search}%");
             })->paginate($perPage)
         );
     }
