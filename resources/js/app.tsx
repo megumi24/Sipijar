@@ -1,13 +1,24 @@
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import '../css/app.css';
-
 import { createInertiaApp } from '@inertiajs/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { PrimeReactProvider } from 'primereact/api';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 
+import '../css/app.css';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const queryClient = new QueryClient();
+
+// This code is only for TypeScript
+declare global {
+  interface Window {
+    __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient;
+  }
+}
+
+// This code is for all users
+window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 
 createInertiaApp({
   title: (title) => (title ? `${title} - ${appName}` : appName),
@@ -21,7 +32,9 @@ createInertiaApp({
 
     root.render(
       <PrimeReactProvider>
-        <App {...props} />
+        <QueryClientProvider client={queryClient}>
+          <App {...props} />
+        </QueryClientProvider>
       </PrimeReactProvider>,
     );
   },

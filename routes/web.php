@@ -18,6 +18,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('doc-raw', function () {
+        return Inertia::render('doc-raw/index');
+    })->name('doc-raw');
 });
 
 
