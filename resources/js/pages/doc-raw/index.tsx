@@ -1,11 +1,13 @@
 import SearchInput from '@/components/search-input';
 import { useSearch } from '@/hooks/use-search';
 import AppLayout from '@/layouts/app-layout';
-import { docRaw } from '@/routes';
+import { edit, index } from '@/routes/doc-raw';
 import { BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import { Check, X } from 'lucide-react';
+import { Head, router } from '@inertiajs/react';
+import { Check, Pencil, X } from 'lucide-react';
 import moment from 'moment';
+import { Button } from 'primereact/button';
+import { ButtonGroup } from 'primereact/buttongroup';
 import { Chip } from 'primereact/chip';
 import { Column } from 'primereact/column';
 import { Tooltip } from 'primereact/tooltip';
@@ -14,7 +16,7 @@ import DocRawDataTable from './doc-raw-data-table';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Document Raws',
-    href: docRaw().url,
+    href: index().url,
   },
 ];
 
@@ -106,6 +108,22 @@ const DocRawIndex = () => {
                     )
                   }
                 />
+              )}
+            ></Column>
+            <Column
+              header="Actions"
+              frozen
+              alignFrozen="right"
+              body={(rowData) => (
+                <ButtonGroup>
+                  <Button
+                    aria-label="Edit"
+                    rounded
+                    outlined
+                    icon={<Pencil size={16} />}
+                    onClick={() => router.visit(edit(rowData.id))}
+                  ></Button>
+                </ButtonGroup>
               )}
             ></Column>
           </DocRawDataTable>

@@ -10,7 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard, docRaw } from '@/routes';
+import { dashboard } from '@/routes';
+import { index } from '@/routes/doc-raw';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { FileStack, LayoutGrid } from 'lucide-react';
@@ -24,7 +25,7 @@ const mainNavItems: NavItem[] = [
   },
   {
     title: 'Document Raws',
-    href: docRaw(),
+    href: index(),
     icon: FileStack,
   },
 ];

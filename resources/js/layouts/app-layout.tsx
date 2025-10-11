@@ -3,6 +3,7 @@ import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { PrimeReactContext } from 'primereact/api';
 import { useContext, useEffect, type ReactNode } from 'react';
+import DefaultLayout from './default-layout';
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -32,8 +33,10 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
   }, [changeTheme, isDark]);
 
   return (
-    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-      {children}
-    </AppLayoutTemplate>
+    <DefaultLayout>
+      <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+        {children}
+      </AppLayoutTemplate>
+    </DefaultLayout>
   );
 };
