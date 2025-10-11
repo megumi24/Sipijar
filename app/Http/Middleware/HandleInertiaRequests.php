@@ -49,6 +49,9 @@ class HandleInertiaRequests extends Middleware
             'modalData' => function () use ($request) {
                 return $request->session()->get('modal');
             },
+            'status' => function () use ($request) {
+                return $request->session()->get('status');
+            },
         ];
     }
 }

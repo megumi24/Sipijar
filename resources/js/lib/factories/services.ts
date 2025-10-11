@@ -26,6 +26,7 @@ export const queriesFactory = <D, P = unknown>(
       queryKey: string[] | ((params?: P) => (string | P)[]);
       queryFn: (params: P) => Promise<D>;
       useQuery: UseQueryType<D, P>;
+      queryKeyWithoutParams: (string | P)[];
     }
   > = {};
   for (const [key, value] of Object.entries(options)) {
@@ -41,6 +42,10 @@ export const queriesFactory = <D, P = unknown>(
           queryFn: ({ signal }) => value.queryFn(params, signal),
           ...queryOptions,
         }),
+      queryKeyWithoutParams:
+        typeof value.queryKey === 'function'
+          ? value.queryKey()
+          : value.queryKey,
     };
   }
   return queries;

@@ -32,6 +32,7 @@ export interface SharedData {
     modal: string;
     data?: { title?: string; [key: string]: unknown };
   } | null;
+  status: 'success' | null;
 }
 
 export interface User {

@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         ResponseFactory::macro('modal', function ($modal, $data = [], $options = []) {
-            request()->session()->ageFlashData();
+            request()->session()->reflash();
             request()->session()->flash('modal', compact('modal', 'data'));
 
             if (!empty($options['redirect'])) {
