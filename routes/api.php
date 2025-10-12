@@ -8,4 +8,8 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
         'index',
         'update',
     ]);
+    Route::apiResource('fact', \App\Http\Controllers\API\FactAPIController::class)->only([
+        'index',
+        'update',
+    ]);
 });
