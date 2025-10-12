@@ -1,6 +1,6 @@
 import { get, PaginatedJSONResponse } from '@/lib/api';
 import { queriesFactory } from '@/lib/factories/services';
-import { index } from '@/routes/api/fact';
+import { graphData, index } from '@/routes/api/fact';
 import moment from 'moment';
 
 export interface ServerFact {
@@ -75,7 +75,7 @@ export const factQueries = queriesFactory({
       'fact',
       ...(params ? [params] : []),
     ],
-    queryFn: async (params?: FactQueryParams, signal?: AbortSignal) => {
+    queryFn: async ({ params, signal }) => {
       const { data, ...pagination } = (await get(index().url, {
         params,
         signal,
@@ -84,6 +84,13 @@ export const factQueries = queriesFactory({
         data: data.map(transformFact) as Fact[],
         ...pagination,
       };
+    },
+  },
+  graphData: {
+    queryKey: ['fact-graph-data'],
+    queryFn: async ({ signal }) => {
+      const { data } = await get(graphData().url, { signal });
+      return data;
     },
   },
 });

@@ -63,7 +63,7 @@ export const docRawQueries = queriesFactory({
       'doc-raws',
       ...(params ? [params] : []),
     ],
-    queryFn: async (params?: DocRawQueryParams, signal?: AbortSignal) => {
+    queryFn: async ({ params, signal }) => {
       const { data, ...pagination } = (await get(index().url, {
         params,
         signal,

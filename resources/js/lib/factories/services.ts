@@ -4,7 +4,7 @@ type ServiceFactoryOptions<D = unknown, P = unknown> = Record<
   string,
   {
     queryKey: string[] | ((params?: P) => (string | P)[]);
-    queryFn: (params?: P, signal?: AbortSignal) => Promise<D>;
+    queryFn: (args: { params?: P; signal?: AbortSignal }) => Promise<D>;
   }
 >;
 export type UseQueryType<D, P> = (
@@ -24,7 +24,7 @@ export const queriesFactory = <D, P = unknown>(
     string,
     {
       queryKey: string[] | ((params?: P) => (string | P)[]);
-      queryFn: (params: P) => Promise<D>;
+      queryFn: (args: { params?: P; signal?: AbortSignal }) => Promise<D>;
       useQuery: UseQueryType<D, P>;
       queryKeyWithoutParams: (string | P)[];
     }
@@ -39,7 +39,7 @@ export const queriesFactory = <D, P = unknown>(
             typeof value.queryKey === 'function'
               ? value.queryKey(params)
               : value.queryKey,
-          queryFn: ({ signal }) => value.queryFn(params, signal),
+          queryFn: ({ signal }) => value.queryFn({ params, signal }),
           ...queryOptions,
         }),
       queryKeyWithoutParams:
