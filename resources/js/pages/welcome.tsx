@@ -25,27 +25,21 @@ export default function Welcome({ config }: WelcomeProps) {
       <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
         <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
           <nav className="flex items-center justify-end gap-4">
-            {auth.user ? (
+            {auth.user && (
               <Link
                 href={dashboard()}
                 className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
               >
                 Dashboard
               </Link>
-            ) : (
-              <TelegramLoginButton
-                telegramLogin={config['telegram-login']}
-                authUrl={config['auth-url']}
-              />
             )}
           </nav>
         </header>
-        <main className="flex w-full flex-1 flex-col">
-          <iframe
-            src="https://metabase.sipijar.my.id/public/dashboard/da963482-4070-40e9-927c-9c827107e2ed"
-            className="w-full flex-1 border-0"
-            allowTransparency
-          ></iframe>
+        <main className="flex w-full flex-1 flex-col items-center justify-center">
+          <TelegramLoginButton
+            telegramLogin={config['telegram-login']}
+            authUrl={config['auth-url']}
+          />
         </main>
       </div>
     </>

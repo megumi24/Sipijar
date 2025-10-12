@@ -16,7 +16,7 @@ const TelegramLoginButton = ({
     script.src = 'https://telegram.org/js/telegram-widget.js?22';
     script.async = true;
     script.setAttribute('data-telegram-login', telegramLogin);
-    script.setAttribute('data-size', 'medium');
+    script.setAttribute('data-size', 'large');
     script.setAttribute('data-userpic', 'true');
     script.setAttribute('data-auth-url', authUrl);
     script.setAttribute('data-request-access', 'write');
