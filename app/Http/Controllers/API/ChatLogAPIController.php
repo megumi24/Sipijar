@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\N8nChatHistoriesFactOperationalResource;
-use App\Models\N8nChatHistoriesFactOperational;
+use App\Http\Resources\ChatLogResource;
+use App\Models\ChatLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class N8nChatHistoriesFactOperationalAPIController extends Controller
+class ChatLogAPIController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -19,8 +19,8 @@ class N8nChatHistoriesFactOperationalAPIController extends Controller
 
         $perPage = $request->input('perPage', 10);
 
-        return N8nChatHistoriesFactOperationalResource::collection(
-            N8nChatHistoriesFactOperational::orderBy('id', 'asc')
+        return ChatLogResource::collection(
+            ChatLog::orderBy('id', 'asc')
                 ->paginate($perPage)
         );
     }

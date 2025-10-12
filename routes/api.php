@@ -13,7 +13,7 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
         'update',
     ]);
     Route::get('fact/graph-data', [\App\Http\Controllers\API\FactAPIController::class, 'graphData'])->name('fact.graph-data');
-    Route::apiResource('chat/fact', \App\Http\Controllers\API\N8nChatHistoriesFactOperationalAPIController::class)->only([
+    Route::apiResource('chat/fact', \App\Http\Controllers\API\ChatLogAPIController::class)->only([
         'index',
     ])->names([
         'index' => 'chat.fact.index',

@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class N8nChatHistoriesFactOperational extends Model
+class ChatLog extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'pijar_n8n_chat_histories_fact_operational';
+    protected $table = 'chat_logs';
 
     /**
      * Indicates if the model should be timestamped.
@@ -35,7 +35,9 @@ class N8nChatHistoriesFactOperational extends Model
     protected function casts(): array
     {
         return [
-            'message' => 'array',
+            'message_date' => 'datetime',
+            'is_selected' => 'boolean',
+            'metadata' => 'array',
         ];
     }
 }
