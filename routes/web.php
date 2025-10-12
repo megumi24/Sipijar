@@ -48,6 +48,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
         })->name('edit');
     });
+
+    Route::name('chat.fact.')->prefix('chat/fact')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('chat/fact/index');
+        })->name('index');
+    });
 });
 
 

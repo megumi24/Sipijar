@@ -11,11 +11,17 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as chatFactIndex } from '@/routes/chat/fact';
 import { index as docRawIndex } from '@/routes/doc-raw';
 import { index as factIndex } from '@/routes/fact';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { FileStack, LayoutGrid, SearchCheck } from 'lucide-react';
+import {
+  FileStack,
+  LayoutGrid,
+  MessagesSquare,
+  SearchCheck,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -33,6 +39,11 @@ const mainNavItems: NavItem[] = [
     title: 'Fact Operational',
     href: factIndex(),
     icon: SearchCheck,
+  },
+  {
+    title: 'Chat Log',
+    href: chatFactIndex(),
+    icon: MessagesSquare,
   },
 ];
 
