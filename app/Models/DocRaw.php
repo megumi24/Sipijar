@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class DocRaw extends Model
@@ -34,12 +33,5 @@ class DocRaw extends Model
             'updated_at' => 'datetime',
             'verified' => 'boolean',
         ];
-    }
-
-    protected function verified(): Attribute
-    {
-        return Attribute::make(
-            get: fn(mixed $value) => (bool) $value && $value !== 'false',
-        );
     }
 }

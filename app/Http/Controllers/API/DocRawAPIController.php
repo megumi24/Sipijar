@@ -26,11 +26,12 @@ class DocRawAPIController extends Controller
         $perPage = $request->input('perPage', 10);
 
         return DocRawResource::collection(
-            DocRaw::when($search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('full_text', 'like', "%{$search}%")
-                    ->orWhere('source_filename', 'like', "%{$search}%");
-            })->paginate($perPage)
+            DocRaw::orderBy('id', 'asc')
+                ->when($search, function ($query, $search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('full_text', 'like', "%{$search}%")
+                        ->orWhere('source_filename', 'like', "%{$search}%");
+                })->paginate($perPage)
         );
     }
 

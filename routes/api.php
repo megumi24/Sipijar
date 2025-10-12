@@ -12,4 +12,5 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
         'index',
         'update',
     ]);
+    Route::get('fact/graph-data', [\App\Http\Controllers\API\FactAPIController::class, 'graphData'])->name('fact.graph-data');
 });
