@@ -64,7 +64,7 @@ const DocRawEdit = ({ data }: DocRawEditProps) => {
   return (
     <form
       onSubmit={submit}
-      className="flex max-h-[75vh] flex-col gap-4 md:min-w-[450px]"
+      className="flex max-h-[75vh] flex-col gap-4 md:min-w-[600px]"
     >
       <div className="flex flex-col gap-8 overflow-auto">
         <div className="mt-6">

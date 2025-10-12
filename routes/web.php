@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\DocRaw;
+use App\Models\FactOperational;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +31,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'data' => $docRaw,
             ], [
                 'redirect' => route('doc-raw.index'),
+            ]);
+        })->name('edit');
+    });
+
+    Route::name('fact.')->prefix('fact')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('fact/index');
+        })->name('index');
+        Route::get('{fact}/edit', function (FactOperational $fact) {
+            return inertia()->modal('fact/edit', [
+                'title' => 'Edit Fact',
+                'data' => $fact,
+            ], [
+                'redirect' => route('fact.index'),
             ]);
         })->name('edit');
     });
