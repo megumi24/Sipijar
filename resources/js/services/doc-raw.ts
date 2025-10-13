@@ -59,10 +59,7 @@ export const transformDocRaw = ({
 
 export const docRawQueries = queriesFactory({
   docRawIndex: {
-    queryKey: (params?: DocRawQueryParams) => [
-      'doc-raws',
-      ...(params ? [params] : []),
-    ],
+    queryKey: (params) => ['doc-raws', ...(params ? [params] : [])],
     queryFn: async ({ params, signal }) => {
       const { data, ...pagination } = (await get(index().url, {
         params,

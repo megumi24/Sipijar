@@ -71,10 +71,7 @@ export const transformFact = ({
 
 export const factQueries = queriesFactory({
   factIndex: {
-    queryKey: (params?: FactQueryParams) => [
-      'fact',
-      ...(params ? [params] : []),
-    ],
+    queryKey: (params) => ['fact', ...(params ? [params] : [])],
     queryFn: async ({ params, signal }) => {
       const { data, ...pagination } = (await get(index().url, {
         params,

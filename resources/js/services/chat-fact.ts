@@ -48,10 +48,7 @@ export const transformChatFact = ({
 
 export const chatFactQueries = queriesFactory({
   chatFactIndex: {
-    queryKey: (params?: ChatFactQueryParams) => [
-      'chat-fact',
-      ...(params ? [params] : []),
-    ],
+    queryKey: (params) => ['chat-fact', ...(params ? [params] : [])],
     queryFn: async ({ params, signal }) => {
       const { data, ...pagination } = (await get(index().url, {
         params,

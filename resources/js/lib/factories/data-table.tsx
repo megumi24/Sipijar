@@ -1,3 +1,4 @@
+import { UseQueryResult } from '@tanstack/react-query';
 import {
   DataTable,
   DataTablePageEvent,
@@ -12,7 +13,7 @@ import {
   useState,
 } from 'react';
 import { PaginatedJSONResponse } from '../api';
-import { UseQueryOptionsExternal, UseQueryType } from './services';
+import { UseQueryOptionsExternal } from './services';
 
 type PaginatedDataTableProps<
   T extends DataTableValueArray,
@@ -27,7 +28,10 @@ interface DataTableFactoryOptions<
   T extends DataTableValueArray,
   P extends { page?: number },
 > {
-  query: UseQueryType<PaginatedJSONResponse<T>, P>;
+  query: (
+    params?: P,
+    queryOptions?: UseQueryOptionsExternal<PaginatedJSONResponse<T>>,
+  ) => UseQueryResult<PaginatedJSONResponse<T>, unknown>;
   queryOptions?: UseQueryOptionsExternal<PaginatedJSONResponse<T>>;
   labels?: {
     currentPageReportTemplate?: string;
