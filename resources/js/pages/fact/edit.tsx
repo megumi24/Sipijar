@@ -6,6 +6,7 @@ import {
   ServerFact,
   transformFact,
 } from '@/services/fact';
+import { wilayahOptionsQueries } from '@/services/wilayah';
 import { useAppStore } from '@/stores/app';
 import { SharedData } from '@/types';
 import { router, useForm, usePage } from '@inertiajs/react';
@@ -13,6 +14,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
+import { Dropdown } from 'primereact/dropdown';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -25,6 +27,12 @@ interface FactEditProps {
 }
 
 const FactEdit = ({ data }: FactEditProps) => {
+  const { data: provinsiOptions } =
+    wilayahOptionsQueries.provinsiOptions.useQuery(undefined, {
+      staleTime: Infinity,
+    });
+  console.log(provinsiOptions);
+
   const { status } = usePage<SharedData>().props;
   const toastRef = useAppStore((state) => state.toastRef);
   const queryClient = useQueryClient();
@@ -272,11 +280,13 @@ const FactEdit = ({ data }: FactEditProps) => {
             <label htmlFor="province" className="font-bold">
               Province
             </label>
-            <InputText
+            <Dropdown
               id="province"
               value={form.data.province}
-              onChange={(e) => form.setData('province', e.target.value)}
+              onChange={(e) => form.setData('province', e.value)}
               className="w-full"
+              editable
+              options={provinsiOptions}
               invalid={!!form.errors.province}
             />
           </FloatLabel>

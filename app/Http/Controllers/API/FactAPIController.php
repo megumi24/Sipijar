@@ -62,8 +62,6 @@ class FactAPIController extends Controller
             'modus_operandi' => 'nullable|string',
             'impact_summary' => 'nullable|string',
             'chronology_summary' => 'nullable|string',
-            'actors_involved' => 'nullable|string',
-            'companies_involved' => 'nullable|string',
             'original_excerpt' => 'nullable|string',
             'source_section' => 'nullable|string',
             'verified' => 'nullable|boolean',
