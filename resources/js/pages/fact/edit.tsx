@@ -6,6 +6,7 @@ import {
   ServerFact,
   transformFact,
 } from '@/services/fact';
+import { masterPembangkitQueries } from '@/services/master-pembangkit';
 import { wilayahOptionsQueries } from '@/services/wilayah';
 import { useAppStore } from '@/stores/app';
 import { SharedData } from '@/types';
@@ -26,12 +27,36 @@ interface FactEditProps {
   data: ServerFact;
 }
 
+const athgOptions: { value: string; label: string }[] = [
+  {
+    value: 'BLAC',
+    label: 'Blackout',
+  },
+  {
+    value: 'PSNK',
+    label: 'Gangguan PSN Kelistrikan (Masalah Sosial Masyarakat)',
+  },
+  {
+    value: 'DIST',
+    label: 'Masalah Distribusi Energi Primer',
+  },
+  {
+    value: 'MANG',
+    label: 'Pembangkit Mangkrak',
+  },
+  {
+    value: 'PNCR',
+    label: 'Pencurian Listrik',
+  },
+];
+
 const FactEdit = ({ data }: FactEditProps) => {
   const { data: provinsiOptions } =
     wilayahOptionsQueries.provinsiOptions.useQuery(undefined, {
       staleTime: Infinity,
     });
-  console.log(provinsiOptions);
+  const { data: masterPembangkitOptions } =
+    masterPembangkitQueries.index.useQuery(undefined, { staleTime: Infinity });
 
   const { status } = usePage<SharedData>().props;
   const toastRef = useAppStore((state) => state.toastRef);
@@ -46,11 +71,18 @@ const FactEdit = ({ data }: FactEditProps) => {
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const athg = athgOptions.find((o) => o.value === form.data.ahtg_code);
+    const pembangkit = masterPembangkitOptions?.find(
+      (o) => o.kode === form.data.infrastructure_code,
+    );
     form.transform((data) => ({
       ...data,
       event_date: data.event_date
         ? moment(data.event_date).startOf('day').add(10, 'hours').toDate()
         : undefined,
+      athg_type: athg?.label,
+      infrastructure_name: pembangkit ? pembangkit.nama : undefined,
+      infrastructure_type: pembangkit ? pembangkit.tipe : undefined,
     }));
     form.put(update(data.id).url);
   };
@@ -146,13 +178,14 @@ const FactEdit = ({ data }: FactEditProps) => {
         <div>
           <FloatLabel>
             <label htmlFor="ahtg_code" className="font-bold">
-              ATHG Code
+              Jenis ATHG
             </label>
-            <InputText
+            <Dropdown
               id="ahtg_code"
               value={form.data.ahtg_code}
-              onChange={(e) => form.setData('ahtg_code', e.target.value)}
+              onChange={(e) => form.setData('ahtg_code', e.value)}
               className="w-full"
+              options={athgOptions}
               invalid={!!form.errors.ahtg_code}
             />
           </FloatLabel>
@@ -166,37 +199,18 @@ const FactEdit = ({ data }: FactEditProps) => {
         </div>
         <div>
           <FloatLabel>
-            <label htmlFor="athg_type" className="font-bold">
-              ATHG Type
-            </label>
-            <InputText
-              id="athg_type"
-              value={form.data.athg_type}
-              onChange={(e) => form.setData('athg_type', e.target.value)}
-              className="w-full"
-              invalid={!!form.errors.athg_type}
-            />
-          </FloatLabel>
-          {form.errors.athg_type && (
-            <div className="flex flex-col">
-              <small id={`athg_type-help`} className="text-red-700">
-                {form.errors.athg_type}
-              </small>
-            </div>
-          )}
-        </div>
-        <div>
-          <FloatLabel>
             <label htmlFor="infrastructure_code" className="font-bold">
-              Infrastructure Code
+              Pembangkit
             </label>
-            <InputText
+            <Dropdown
               id="infrastructure_code"
               value={form.data.infrastructure_code}
-              onChange={(e) =>
-                form.setData('infrastructure_code', e.target.value)
-              }
+              onChange={(e) => form.setData('infrastructure_code', e.value)}
               className="w-full"
+              options={masterPembangkitOptions}
+              optionValue="kode"
+              optionLabel="optionLabel"
+              filter
               invalid={!!form.errors.infrastructure_code}
             />
           </FloatLabel>
@@ -204,52 +218,6 @@ const FactEdit = ({ data }: FactEditProps) => {
             <div className="flex flex-col">
               <small id={`infrastructure_code-help`} className="text-red-700">
                 {form.errors.infrastructure_code}
-              </small>
-            </div>
-          )}
-        </div>
-        <div>
-          <FloatLabel>
-            <label htmlFor="infrastructure_name" className="font-bold">
-              Infrastructure Name
-            </label>
-            <InputText
-              id="infrastructure_name"
-              value={form.data.infrastructure_name}
-              onChange={(e) =>
-                form.setData('infrastructure_name', e.target.value)
-              }
-              className="w-full"
-              invalid={!!form.errors.infrastructure_name}
-            />
-          </FloatLabel>
-          {form.errors.infrastructure_name && (
-            <div className="flex flex-col">
-              <small id={`infrastructure_name-help`} className="text-red-700">
-                {form.errors.infrastructure_name}
-              </small>
-            </div>
-          )}
-        </div>
-        <div>
-          <FloatLabel>
-            <label htmlFor="infrastructure_type" className="font-bold">
-              Infrastructure Type
-            </label>
-            <InputText
-              id="infrastructure_type"
-              value={form.data.infrastructure_type}
-              onChange={(e) =>
-                form.setData('infrastructure_type', e.target.value)
-              }
-              className="w-full"
-              invalid={!!form.errors.infrastructure_type}
-            />
-          </FloatLabel>
-          {form.errors.infrastructure_type && (
-            <div className="flex flex-col">
-              <small id={`infrastructure_type-help`} className="text-red-700">
-                {form.errors.infrastructure_type}
               </small>
             </div>
           )}

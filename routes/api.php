@@ -20,4 +20,7 @@ Route::name('api.')->middleware('auth:sanctum')->group(function () {
     ])->names([
         'index' => 'chat.fact.index',
     ]);
+    Route::apiResource('master-pembangkit', \App\Http\Controllers\API\MasterPembangkitAPIController::class)->only([
+        'index',
+    ]);
 });

@@ -15,7 +15,7 @@ export interface SelectComponentFactoryOptions<T = string> {
   label: string;
   selectId: string;
   options?: SelectItem<T>[];
-  model?: SelectItem<T>;
+  model?: T;
 }
 
 export const selectComponentFactory = <T = string,>({
@@ -42,7 +42,7 @@ export const selectComponentFactory = <T = string,>({
           filter
           {...props}
           options={options}
-          value={model?.value}
+          value={model}
           onChange={(event) => {
             if (props.onChange) return props.onChange(event);
           }}

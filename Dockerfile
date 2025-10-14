@@ -3,18 +3,19 @@ FROM composer:2 AS build
 WORKDIR /app
 
 # Dependencies
-RUN apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm \
+    && npm install -g pnpm
 
 # Backend Build
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --optimize-autoloader
 
 # Frontend Build
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 # 2. Runtime Stage
 FROM php:8.3-fpm-alpine AS runtime
