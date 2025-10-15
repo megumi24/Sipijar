@@ -1,6 +1,4 @@
-import { get, PaginatedJSONResponse } from '@/lib/api';
 import { queriesFactory } from '@/lib/factories/services';
-import { index } from '@/routes/api/chat/fact';
 import moment from 'moment';
 
 export interface ServerChatFact {
@@ -47,17 +45,17 @@ export const transformChatFact = ({
 });
 
 export const chatFactQueries = queriesFactory({
-  chatFactIndex: {
-    queryKey: (params) => ['chat-fact', ...(params ? [params] : [])],
-    queryFn: async ({ params, signal }) => {
-      const { data, ...pagination } = (await get(index().url, {
-        params,
-        signal,
-      })) as PaginatedJSONResponse<ServerChatFact[]>;
-      return {
-        data: data.map(transformChatFact) as ChatFact[],
-        ...pagination,
-      };
-    },
-  },
+  //   chatFactIndex: {
+  //     queryKey: (params) => ['chat-fact', ...(params ? [params] : [])],
+  //     queryFn: async ({ params, signal }) => {
+  //       const { data, ...pagination } = (await get(index().url, {
+  //         params,
+  //         signal,
+  //       })) as PaginatedJSONResponse<ServerChatFact[]>;
+  //       return {
+  //         data: data.map(transformChatFact) as ChatFact[],
+  //         ...pagination,
+  //       };
+  //     },
+  //   },
 });

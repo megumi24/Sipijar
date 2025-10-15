@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { index } from '@/routes/chat/fact';
+// import { index } from '@/routes/chat/fact';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import moment from 'moment';
@@ -7,10 +7,10 @@ import { Column } from 'primereact/column';
 import ChatFactDataTable from './data-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: 'Chat Log',
-    href: index().url,
-  },
+  //   {
+  //     title: 'Chat Log',
+  //     href: index().url,
+  //   },
 ];
 
 const ChatFactIndex = () => {
