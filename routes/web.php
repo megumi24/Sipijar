@@ -66,7 +66,7 @@ Route::get('/auth/telegram/callback', function () {
         [
             'first_name' => $user->user['first_name'] ?? null,
             'last_name' => $user->user['last_name'] ?? null,
-            'username' => $user->user['username'],
+            'username' => $user->user['username'] ?? "telegram-user-{$user->user['id']]}",
             'photo_url' => $user->user['photo_url'] ?? null,
         ]
     );
