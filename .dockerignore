@@ -31,3 +31,5 @@ Thumbs.db
 # Docker-specific junk
 docker-compose.yml
 Dockerfile
+
+sipijar-admin.tar

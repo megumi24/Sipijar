@@ -2,6 +2,11 @@
 FROM composer:2 AS build
 WORKDIR /app
 
+ENV APP_NAME=SIPIJAR
+ENV APP_URL=https://admin.sipijar.my.id
+ENV VITE_APP_NAME=SIPIJAR
+ENV VITE_APP_URL=https://admin.sipijar.my.id
+
 # Dependencies
 RUN apk add --no-cache nodejs npm \
     && npm install -g pnpm

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Inertia\ResponseFactory;
 
@@ -35,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
 
             return redirect()->back();
         });
+
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
