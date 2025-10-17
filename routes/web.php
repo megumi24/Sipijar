@@ -61,15 +61,20 @@ Route::get('/auth/telegram/callback', function () {
     $user = Socialite::driver('telegram')->user();
 
     // Example: find or create a user in your DB
+    $username = $user->user['username'] ?? "telegram-user-{$user->user['id']}";
     $authUser = App\Models\User::firstOrCreate(
         ['telegram_id' => $user->user['id']],
         [
             'first_name' => $user->user['first_name'] ?? null,
             'last_name' => $user->user['last_name'] ?? null,
-            'username' => $user->user['username'] ?? "telegram-user-{$user->user['id']]}",
+            'username' => $username,
             'photo_url' => $user->user['photo_url'] ?? null,
         ]
     );
+    if ($authUser->username !== $username) {
+        $authUser->username = $username;
+        $authUser->save();
+    }
 
     Auth::login($authUser);
 
