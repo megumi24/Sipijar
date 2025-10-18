@@ -19,7 +19,7 @@ class EnsureUserIsVerified
         // Check if the user is logged in and not verified
         if (Auth::check() && !Auth::user()->is_verified) {
             // Log out or redirect to a notice page
-            return redirect()->route('verification.notice')
+            return redirect()->route('verification.notice.telegram')
                 ->with('error', 'Your account has not been verified yet.');
         }
 

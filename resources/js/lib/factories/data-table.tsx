@@ -15,7 +15,7 @@ import {
 import { PaginatedJSONResponse } from '../api';
 import { UseQueryOptionsExternal } from './services';
 
-type PaginatedDataTableProps<
+export type PaginatedDataTableProps<
   T extends DataTableValueArray,
   P extends { page?: number },
 > = {

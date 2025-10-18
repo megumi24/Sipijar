@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DocRawController;
 use App\Http\Controllers\FactController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsVerified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,16 +19,21 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('guest', function (Request $request) {
         if ($request->user()->is_verified) return to_route('dashboard');
         return Inertia::render('verification-notice');
-    })->name('verification.notice');
+    })->name('verification.notice.telegram');
 
     Route::middleware(EnsureUserIsVerified::class)->group(function () {
         Route::get('dashboard', function () {
             return Inertia::render('dashboard/index');
         })->name('dashboard');
+
+        Route::name('user.')->prefix('user')->group(function () {
+            Route::get('/', [UserController::class, 'page'])->name('index');
+            Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit');
+        });
 
         Route::name('doc-raw.')->prefix('doc-raw')->group(function () {
             Route::get('/', [DocRawController::class, 'page'])->name('index');

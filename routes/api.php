@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsVerified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::name('api.')->middleware('auth:sanctum')->group(function () {
+Route::name('api.')->middleware(['auth:sanctum', EnsureUserIsVerified::class])->group(function () {
     Route::name('wilayah.provinsi.select-items')->get('wilayah/provinsi/select-items', [\App\Http\Controllers\WilayahOptionsController::class, 'provinsiOptions']);
 
+    Route::apiResource('user', \App\Http\Controllers\UserController::class)->only([
+        'index',
+        'update',
+    ]);
     Route::apiResource('doc-raw', \App\Http\Controllers\DocRawController::class)->only([
         'index',
         'update',

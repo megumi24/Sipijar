@@ -13,9 +13,10 @@ import {
 import { dashboard } from '@/routes';
 import { index as docRawIndex } from '@/routes/doc-raw';
 import { index as factIndex } from '@/routes/fact';
+import { index as userIndex } from '@/routes/user';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { FileStack, LayoutGrid, SearchCheck } from 'lucide-react';
+import { FileStack, LayoutGrid, SearchCheck, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -23,6 +24,11 @@ const mainNavItems: NavItem[] = [
     title: 'Dashboard',
     href: dashboard(),
     icon: LayoutGrid,
+  },
+  {
+    title: 'Pengguna',
+    href: userIndex(),
+    icon: Users,
   },
   {
     title: 'Document Raws',
