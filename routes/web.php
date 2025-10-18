@@ -1,7 +1,9 @@
 <?php
 
-use App\Models\DocRaw;
-use App\Models\FactOperational;
+use App\Http\Controllers\DocRawController;
+use App\Http\Controllers\FactController;
+use App\Http\Middleware\EnsureUserIsVerified;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,43 +19,32 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard/index');
-    })->name('dashboard');
+    Route::get('guest', function (Request $request) {
+        if ($request->user()->is_verified) return to_route('dashboard');
+        return Inertia::render('verification-notice');
+    })->name('verification.notice');
 
-    Route::name('doc-raw.')->prefix('doc-raw')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('doc-raw/index');
-        })->name('index');
-        Route::get('{docRaw}/edit', function (DocRaw $docRaw) {
-            return inertia()->modal('doc-raw/edit', [
-                'title' => 'Edit Document',
-                'data' => $docRaw,
-            ], [
-                'redirect' => route('doc-raw.index'),
-            ]);
-        })->name('edit');
+    Route::middleware(EnsureUserIsVerified::class)->group(function () {
+        Route::get('dashboard', function () {
+            return Inertia::render('dashboard/index');
+        })->name('dashboard');
+
+        Route::name('doc-raw.')->prefix('doc-raw')->group(function () {
+            Route::get('/', [DocRawController::class, 'page'])->name('index');
+            Route::get('{docRaw}/edit', [DocRawController::class, 'edit'])->name('edit');
+        });
+
+        Route::name('fact.')->prefix('fact')->group(function () {
+            Route::get('/', [FactController::class, 'page'])->name('index');
+            Route::get('{fact}/edit', [FactController::class, 'edit'])->name('edit');
+        });
+
+        // Route::name('chat.fact.')->prefix('chat/fact')->group(function () {
+        //     Route::get('/', function () {
+        //         return Inertia::render('chat/fact/index');
+        //     })->name('index');
+        // });
     });
-
-    Route::name('fact.')->prefix('fact')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('fact/index');
-        })->name('index');
-        Route::get('{fact}/edit', function (FactOperational $fact) {
-            return inertia()->modal('fact/edit', [
-                'title' => 'Edit Fact',
-                'data' => $fact,
-            ], [
-                'redirect' => route('fact.index'),
-            ]);
-        })->name('edit');
-    });
-
-    // Route::name('chat.fact.')->prefix('chat/fact')->group(function () {
-    //     Route::get('/', function () {
-    //         return Inertia::render('chat/fact/index');
-    //     })->name('index');
-    // });
 });
 
 

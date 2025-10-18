@@ -4,23 +4,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::name('api.')->middleware('auth:sanctum')->group(function () {
-    Route::name('wilayah.provinsi.select-items')->get('wilayah/provinsi/select-items', [\App\Http\Controllers\API\WilayahOptionsAPIController::class, 'provinsiOptions']);
+    Route::name('wilayah.provinsi.select-items')->get('wilayah/provinsi/select-items', [\App\Http\Controllers\WilayahOptionsController::class, 'provinsiOptions']);
 
-    Route::apiResource('doc-raw', \App\Http\Controllers\API\DocRawAPIController::class)->only([
+    Route::apiResource('doc-raw', \App\Http\Controllers\DocRawController::class)->only([
         'index',
         'update',
     ]);
-    Route::apiResource('fact', \App\Http\Controllers\API\FactAPIController::class)->only([
+    Route::apiResource('fact', \App\Http\Controllers\FactController::class)->only([
         'index',
         'update',
     ]);
-    Route::get('fact/graph-data', [\App\Http\Controllers\API\FactAPIController::class, 'graphData'])->name('fact.graph-data');
-    // Route::apiResource('chat/fact', \App\Http\Controllers\API\ChatLogAPIController::class)->only([
+    Route::get('fact/graph-data', [\App\Http\Controllers\FactController::class, 'graphData'])->name('fact.graph-data');
+    // Route::apiResource('chat/fact', \App\Http\Controllers\ChatLogController::class)->only([
     //     'index',
     // ])->names([
     //     'index' => 'chat.fact.index',
     // ]);
-    Route::apiResource('master-pembangkit', \App\Http\Controllers\API\MasterPembangkitAPIController::class)->only([
+    Route::apiResource('master-pembangkit', \App\Http\Controllers\MasterPembangkitController::class)->only([
         'index',
     ]);
 });

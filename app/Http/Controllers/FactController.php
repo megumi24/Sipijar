@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FactResource;
@@ -9,10 +9,16 @@ use App\Traits\HasCustomValidator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Inertia\Inertia;
 
-class FactAPIController extends Controller
+class FactController extends Controller
 {
     use HasCustomValidator;
+
+    public function page()
+    {
+        return Inertia::render('fact/index');
+    }
 
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -45,6 +51,16 @@ class FactAPIController extends Controller
                         ->orWhere('source_filename', 'like', "%{$search}%");
                 })->paginate($perPage)
         );
+    }
+
+    public function edit(FactOperational $fact)
+    {
+        return Inertia::modal('fact/edit', [
+            'title' => 'Edit Fact',
+            'data' => $fact,
+        ], [
+            'redirect' => route('fact.index'),
+        ]);
     }
 
     public function update(Request $request, FactOperational $fact)

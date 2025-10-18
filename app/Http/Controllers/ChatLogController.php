@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ChatLogResource;
@@ -8,7 +8,7 @@ use App\Models\ChatLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class ChatLogAPIController extends Controller
+class ChatLogController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
