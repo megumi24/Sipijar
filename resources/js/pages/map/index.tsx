@@ -1,5 +1,5 @@
-import Leaflet from '@/components/leaflet';
 import AppLayout from '@/layouts/app-layout';
+import Leaflet from '@/pages/map/leaflet';
 import { map } from '@/routes';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';

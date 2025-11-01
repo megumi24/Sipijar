@@ -1,6 +1,7 @@
 import L from 'leaflet';
 import 'leaflet.heat';
 import { useEffect, useState } from 'react';
+import './styles.css';
 
 const dataPembangkit = [
   {
@@ -151,24 +152,24 @@ export default function Leaflet() {
     });
 
     // Heatmap
-    let filteredHeat = combinedData;
-    if (heatType !== 'semua')
-      filteredHeat = filteredHeat.filter((d) => d.kasus === heatType);
+    // let filteredHeat = combinedData;
+    // if (heatType !== 'semua')
+    //   filteredHeat = filteredHeat.filter((d) => d.kasus === heatType);
 
-    const heatPoints: [number, number, number?][] = filteredHeat.map((d) => [
-      d.lat,
-      d.lon,
-      d.jumlah,
-    ]);
-    if (heatPoints.length > 0) {
-      L.heatLayer(heatPoints, { radius: 25, blur: 20, maxZoom: 8 }).addTo(
-        layerGroup,
-      );
-    }
+    // const heatPoints: [number, number, number?][] = filteredHeat.map((d) => [
+    //   d.lat,
+    //   d.lon,
+    //   d.jumlah,
+    // ]);
+    // if (heatPoints.length > 0) {
+    //   L.heatLayer(heatPoints, { radius: 25, blur: 20, maxZoom: 8 }).addTo(
+    //     layerGroup,
+    //   );
+    // }
   }, [map, layerGroup, type, status, heatType]);
 
   return (
-    <div>
+    <div className="relative text-black">
       <div className="controls">
         <label>Tipe Data</label>
         <select onChange={(e) => setType(e.target.value)}>
