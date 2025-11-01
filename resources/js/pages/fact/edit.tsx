@@ -55,8 +55,11 @@ const FactEdit = ({ data }: FactEditProps) => {
     wilayahOptionsQueries.provinsiOptions.useQuery(undefined, {
       staleTime: Infinity,
     });
-  const { data: masterPembangkitOptions } =
-    masterPembangkitQueries.index.useQuery(undefined, { staleTime: Infinity });
+  const { data: masterPembangkitQueryData } =
+    masterPembangkitQueries.index.useQuery(
+      { perPage: -1 },
+      { staleTime: Infinity },
+    );
 
   const { status } = usePage<SharedData>().props;
   const toastRef = useAppStore((state) => state.toastRef);
@@ -72,7 +75,7 @@ const FactEdit = ({ data }: FactEditProps) => {
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const athg = athgOptions.find((o) => o.value === form.data.ahtg_code);
-    const pembangkit = masterPembangkitOptions?.find(
+    const pembangkit = masterPembangkitQueryData?.data.find(
       (o) => o.kode === form.data.infrastructure_code,
     );
     form.transform((data) => ({
@@ -207,7 +210,7 @@ const FactEdit = ({ data }: FactEditProps) => {
               value={form.data.infrastructure_code}
               onChange={(e) => form.setData('infrastructure_code', e.value)}
               className="w-full"
-              options={masterPembangkitOptions}
+              options={masterPembangkitQueryData?.data}
               optionValue="kode"
               optionLabel="optionLabel"
               filter

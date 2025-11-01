@@ -13,6 +13,7 @@ import {
 import { dashboard, map, sna } from '@/routes';
 import { index as docRawIndex } from '@/routes/doc-raw';
 import { index as factIndex } from '@/routes/fact';
+import { index as pembangkitIndex } from '@/routes/pembangkit';
 import { index as userIndex } from '@/routes/user';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -23,6 +24,7 @@ import {
   MapPinned,
   SearchCheck,
   Users,
+  UtilityPole,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -46,6 +48,11 @@ const mainNavItems: NavItem[] = [
     title: 'Pengguna',
     href: userIndex(),
     icon: Users,
+  },
+  {
+    title: 'Master Pembangkit',
+    href: pembangkitIndex(),
+    icon: UtilityPole,
   },
   {
     title: 'Document Raws',

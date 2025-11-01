@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DocRawController;
 use App\Http\Controllers\FactController;
+use App\Http\Controllers\MasterPembangkitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsVerified;
 use Illuminate\Http\Request;
@@ -39,6 +40,11 @@ Route::middleware(['auth'])->group(function () {
         Route::name('user.')->prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'page'])->name('index');
             Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit');
+        });
+
+        Route::name('pembangkit.')->prefix('pembangkit')->group(function () {
+            Route::get('/', [MasterPembangkitController::class, 'page'])->name('index');
+            Route::get('{pembangkit}/edit', [MasterPembangkitController::class, 'edit'])->name('edit');
         });
 
         Route::name('doc-raw.')->prefix('doc-raw')->group(function () {

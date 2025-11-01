@@ -5,15 +5,50 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MasterPembangkitResource;
 use App\Models\MasterPembangkit;
+use App\Traits\HasCustomValidator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Inertia\Inertia;
 
 class MasterPembangkitController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    use HasCustomValidator;
+
+    public function page()
     {
+        return Inertia::render('pembangkit/index');
+    }
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $request->validate([
+            'search' => 'nullable',
+            'page' => 'nullable|numeric',
+            'perPage' => 'nullable|numeric',
+        ]);
+
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10);
+
+        $query = MasterPembangkit::orderBy('id', 'asc')->when($search, function ($query, $search) {
+            $query->where('nama', 'like', "%{$search}%")
+                ->orWhere('deskripsi', 'like', "%{$search}%")
+                ->orWhere('alias', 'like', "%{$search}%");
+        });
+
         return MasterPembangkitResource::collection(
-            MasterPembangkit::orderBy('id', 'asc')->get()
+            $perPage == -1 ? $query->get() :
+                $query->paginate($perPage)
         );
+    }
+
+    public function edit(MasterPembangkit $pembangkit)
+    {
+        return Inertia::modal('pembangkit/edit', [
+            'title' => 'Edit Pembangkit',
+            'data' => $pembangkit,
+        ], [
+            'redirect' => route('pembangkit.index'),
+        ]);
     }
 }
