@@ -3,6 +3,7 @@
 use App\Http\Controllers\DocRawController;
 use App\Http\Controllers\FactController;
 use App\Http\Controllers\MasterPembangkitController;
+use App\Http\Controllers\MasterTransmisiController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsVerified;
 use Illuminate\Http\Request;
@@ -45,6 +46,11 @@ Route::middleware(['auth'])->group(function () {
         Route::name('pembangkit.')->prefix('pembangkit')->group(function () {
             Route::get('/', [MasterPembangkitController::class, 'page'])->name('index');
             Route::get('{pembangkit}/edit', [MasterPembangkitController::class, 'edit'])->name('edit');
+        });
+
+        Route::name('transmisi.')->prefix('transmisi')->group(function () {
+            Route::get('/', [MasterTransmisiController::class, 'page'])->name('index');
+            Route::get('{transmisi}/edit', [MasterTransmisiController::class, 'edit'])->name('edit');
         });
 
         Route::name('doc-raw.')->prefix('doc-raw')->group(function () {

@@ -28,4 +28,7 @@ Route::name('api.')->middleware(['auth:sanctum', EnsureUserIsVerified::class])->
     Route::apiResource('master-pembangkit', \App\Http\Controllers\MasterPembangkitController::class)->only([
         'index',
     ]);
+    Route::apiResource('master-transmisi', \App\Http\Controllers\MasterTransmisiController::class)->only([
+        'index',
+    ]);
 });

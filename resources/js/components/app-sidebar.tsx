@@ -14,6 +14,7 @@ import { dashboard, map, sna } from '@/routes';
 import { index as docRawIndex } from '@/routes/doc-raw';
 import { index as factIndex } from '@/routes/fact';
 import { index as pembangkitIndex } from '@/routes/pembangkit';
+import { index as transmisiIndex } from '@/routes/transmisi';
 import { index as userIndex } from '@/routes/user';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -25,6 +26,7 @@ import {
   SearchCheck,
   Users,
   UtilityPole,
+  Zap,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -52,6 +54,11 @@ const mainNavItems: NavItem[] = [
   {
     title: 'Master Pembangkit',
     href: pembangkitIndex(),
+    icon: Zap,
+  },
+  {
+    title: 'Master Transmisi',
+    href: transmisiIndex(),
     icon: UtilityPole,
   },
   {
