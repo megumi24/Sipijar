@@ -10,13 +10,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, map, sna } from '@/routes';
 import { index as docRawIndex } from '@/routes/doc-raw';
 import { index as factIndex } from '@/routes/fact';
 import { index as userIndex } from '@/routes/user';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { FileStack, LayoutGrid, SearchCheck, Users } from 'lucide-react';
+import {
+  ChartNetwork,
+  FileStack,
+  LayoutGrid,
+  MapPinned,
+  SearchCheck,
+  Users,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -24,6 +31,16 @@ const mainNavItems: NavItem[] = [
     title: 'Dashboard',
     href: dashboard(),
     icon: LayoutGrid,
+  },
+  {
+    title: 'Peta Situasi',
+    href: map(),
+    icon: MapPinned,
+  },
+  {
+    title: 'Network Mapping',
+    href: sna(),
+    icon: ChartNetwork,
   },
   {
     title: 'Pengguna',

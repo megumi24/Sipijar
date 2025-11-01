@@ -29,6 +29,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', function () {
             return Inertia::render('dashboard/index');
         })->name('dashboard');
+        Route::get('map', function () {
+            return Inertia::render('map/index');
+        })->name('map');
+        Route::get('sna', function () {
+            return Inertia::render('sna/index');
+        })->name('sna');
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'page'])->name('index');

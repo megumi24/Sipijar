@@ -108,9 +108,9 @@ const NetworkGraph = () => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <h3 style={{ color: '#ffcc00', textAlign: 'center' }}>
+      <h2 className="mb-4 text-center text-xl font-bold">
         Graf Hubungan Actor–Company
-      </h3>
+      </h2>
       <div
         ref={containerRef}
         style={{ height: '80vh', background: '#1e1e1e', borderRadius: 8 }}
@@ -123,7 +123,7 @@ const NetworkGraph = () => {
       <div
         style={{
           position: 'absolute',
-          top: 12,
+          top: 50,
           right: 12,
           background: 'rgba(30,30,30,0.85)',
           padding: 10,
