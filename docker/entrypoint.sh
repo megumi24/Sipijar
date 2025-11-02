@@ -12,7 +12,7 @@ if [ -z "$APP_KEY" ]; then
   php artisan key:generate --ansi
 fi
 
-php artisan migrate --force --ansi
+php artisan migrate --force --no-interaction --ansi
 php artisan optimize:clear --ansi
 
 exec "$@"
