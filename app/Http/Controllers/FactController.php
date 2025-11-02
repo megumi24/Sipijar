@@ -9,6 +9,7 @@ use App\Traits\HasCustomValidator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class FactController extends Controller
@@ -17,11 +18,15 @@ class FactController extends Controller
 
     public function page()
     {
+        Gate::authorize('manage');
+
         return Inertia::render('fact/index');
     }
 
     public function index(Request $request): AnonymousResourceCollection
     {
+        Gate::authorize('manage');
+
         $request->validate([
             'search' => 'nullable',
             'page' => 'nullable|numeric',
@@ -55,6 +60,8 @@ class FactController extends Controller
 
     public function edit(FactOperational $fact)
     {
+        Gate::authorize('manage');
+
         return Inertia::modal('fact/edit', [
             'title' => 'Edit Fact',
             'data' => $fact,
@@ -65,6 +72,8 @@ class FactController extends Controller
 
     public function update(Request $request, FactOperational $fact)
     {
+        Gate::authorize('manage');
+
         $redirectTo = route('fact.edit', ['fact' => $fact->id]);
         $validated = $this->validate($request, [
             'knowledge_code' => 'nullable|string',

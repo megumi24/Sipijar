@@ -8,6 +8,7 @@ use App\Models\MasterPembangkit;
 use App\Traits\HasCustomValidator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class MasterPembangkitController extends Controller
@@ -16,11 +17,15 @@ class MasterPembangkitController extends Controller
 
     public function page()
     {
+        Gate::authorize('manage');
+
         return Inertia::render('pembangkit/index');
     }
 
     public function index(Request $request): AnonymousResourceCollection
     {
+        Gate::authorize('manage');
+
         $request->validate([
             'search' => 'nullable',
             'page' => 'nullable|numeric',
@@ -44,6 +49,8 @@ class MasterPembangkitController extends Controller
 
     public function edit(MasterPembangkit $pembangkit)
     {
+        Gate::authorize('manage');
+
         return Inertia::modal('pembangkit/edit', [
             'title' => 'Edit Pembangkit',
             'data' => $pembangkit,

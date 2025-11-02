@@ -8,6 +8,7 @@ use App\Models\MasterTransmisi;
 use App\Traits\HasCustomValidator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class MasterTransmisiController extends Controller
@@ -16,11 +17,15 @@ class MasterTransmisiController extends Controller
 
     public function page()
     {
+        Gate::authorize('manage');
+
         return Inertia::render('transmisi/index');
     }
 
     public function index(Request $request): AnonymousResourceCollection
     {
+        Gate::authorize('manage');
+
         $request->validate([
             'search' => 'nullable',
             'page' => 'nullable|numeric',
@@ -39,6 +44,8 @@ class MasterTransmisiController extends Controller
 
     public function edit(MasterTransmisi $transmisi)
     {
+        Gate::authorize('manage');
+
         return Inertia::modal('transmisi/edit', [
             'title' => 'Edit Transmisi',
             'data' => $transmisi,

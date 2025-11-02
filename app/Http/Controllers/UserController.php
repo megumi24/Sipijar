@@ -8,6 +8,7 @@ use App\Traits\HasCustomValidator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -16,11 +17,15 @@ class UserController extends Controller
 
     public function page()
     {
+        Gate::authorize('manage');
+
         return Inertia::render('user/index');
     }
 
     public function index(Request $request): AnonymousResourceCollection
     {
+        Gate::authorize('manage');
+
         $request->validate([
             'search' => 'nullable',
             'page' => 'nullable|numeric',
@@ -42,6 +47,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        Gate::authorize('manage');
+
         return Inertia::modal('user/edit', [
             'title' => 'Edit User',
             'data' => $user,
@@ -52,6 +59,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        Gate::authorize('manage');
+
         $redirectTo = route('user.edit', ['user' => $user->id]);
         $validated = $this->validate($request, [
             'first_name' => 'nullable|string',

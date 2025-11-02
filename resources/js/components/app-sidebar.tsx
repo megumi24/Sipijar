@@ -50,26 +50,31 @@ const mainNavItems: NavItem[] = [
     title: 'Pengguna',
     href: userIndex(),
     icon: Users,
+    isAdmin: true,
   },
   {
     title: 'Master Pembangkit',
     href: pembangkitIndex(),
     icon: Zap,
+    isAdmin: true,
   },
   {
     title: 'Master Transmisi',
     href: transmisiIndex(),
     icon: UtilityPole,
+    isAdmin: true,
   },
   {
     title: 'Document Raws',
     href: docRawIndex(),
     icon: FileStack,
+    isAdmin: true,
   },
   {
     title: 'Fact Operational',
     href: factIndex(),
     icon: SearchCheck,
+    isAdmin: true,
   },
 ];
 

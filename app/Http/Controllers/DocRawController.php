@@ -9,6 +9,7 @@ use App\Traits\HasCustomValidator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class DocRawController extends Controller
@@ -17,11 +18,15 @@ class DocRawController extends Controller
 
     public function page()
     {
+        Gate::authorize('manage');
+
         return Inertia::render('doc-raw/index');
     }
 
     public function index(Request $request): AnonymousResourceCollection
     {
+        Gate::authorize('manage');
+
         $request->validate([
             'search' => 'nullable',
             'page' => 'nullable|numeric',
@@ -43,6 +48,8 @@ class DocRawController extends Controller
 
     public function edit(DocRaw $docRaw)
     {
+        Gate::authorize('manage');
+
         return Inertia::modal('doc-raw/edit', [
             'title' => 'Edit Document',
             'data' => $docRaw,
@@ -53,6 +60,8 @@ class DocRawController extends Controller
 
     public function update(Request $request, DocRaw $docRaw)
     {
+        Gate::authorize('manage');
+
         $redirectTo = route('doc-raw.edit', ['docRaw' => $docRaw->id]);
         $validated = $this->validate($request, [
             'source_filename' => 'required',
