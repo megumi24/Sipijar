@@ -19,7 +19,7 @@ const SnaIndex = () => {
         <NetworkGraph />
         <iframe
           title="Dashboard Metabase"
-          src="http://metabase.sipijar.my.id/public/dashboard/64e123da-62e4-49c2-adc7-7bcbd6aa2b49"
+          src="https://metabase.sipijar.my.id/public/dashboard/64e123da-62e4-49c2-adc7-7bcbd6aa2b49"
           className="h-[85vh] w-full border-0"
           allowTransparency
         ></iframe>

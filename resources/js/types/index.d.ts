@@ -3,6 +3,7 @@ import { LucideIcon } from 'lucide-react';
 
 export interface Auth {
   user: User;
+  can: Record<string, boolean>;
 }
 
 export interface BreadcrumbItem {

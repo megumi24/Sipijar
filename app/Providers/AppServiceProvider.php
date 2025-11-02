@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Inertia\ResponseFactory;
@@ -40,5 +42,14 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
+
+        $this->registerGates();
+    }
+
+    private function registerGates()
+    {
+        Gate::define('manage', function (User $user) {
+            return $user->is_verified && $user->is_admin;
+        });
     }
 }
