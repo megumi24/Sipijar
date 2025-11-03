@@ -20,6 +20,7 @@ Route::name('api.')->middleware(['auth:sanctum', EnsureUserIsVerified::class])->
         'update',
     ]);
     Route::get('fact/graph-data', [\App\Http\Controllers\FactController::class, 'graphData'])->name('fact.graph-data');
+    Route::get('pembangkit/situation', [\App\Http\Controllers\MasterPembangkitController::class, 'getSituationData'])->name('pembangkit.situation');
     // Route::apiResource('chat/fact', \App\Http\Controllers\ChatLogController::class)->only([
     //     'index',
     // ])->names([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MasterPembangkitResource;
 use App\Models\MasterPembangkit;
+use App\Models\MasterTransmisi;
 use App\Traits\HasCustomValidator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -56,6 +57,16 @@ class MasterPembangkitController extends Controller
             'data' => $pembangkit,
         ], [
             'redirect' => route('pembangkit.index'),
+        ]);
+    }
+
+    public function getSituationData()
+    {
+        return response()->json([
+            'data' => [
+                'pembangkit' => MasterPembangkit::getSituationData(),
+                'transmisi' => MasterTransmisi::getSituationData(),
+            ],
         ]);
     }
 }

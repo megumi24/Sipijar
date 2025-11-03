@@ -1,78 +1,37 @@
+import { masterPembangkitQueries } from '@/services/master-pembangkit';
 import L from 'leaflet';
 import 'leaflet.heat';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './styles.css';
-
-const dataPembangkit = [
-  {
-    id: 1,
-    name: 'PLTU Suralaya',
-    lat: -6.02,
-    lon: 105.95,
-    type: 'pembangkit',
-    status: 'aktif',
-    kasus: 'blackout',
-    jumlah: 8,
-  },
-  {
-    id: 2,
-    name: 'PLTA Saguling',
-    lat: -6.85,
-    lon: 107.33,
-    type: 'pembangkit',
-    status: 'proyek',
-    kasus: 'distribusi',
-    jumlah: 4,
-  },
-  {
-    id: 3,
-    name: 'PLTG Tambak Lorok',
-    lat: -6.97,
-    lon: 110.44,
-    type: 'pembangkit',
-    status: 'shutdown',
-    kasus: 'p2tl',
-    jumlah: 6,
-  },
-];
-
-const dataTransmisi = [
-  {
-    id: 101,
-    name: 'SUTET Jawa-Bali',
-    lat: -7.0,
-    lon: 108.5,
-    type: 'transmisi',
-    status: 'aktif',
-    kasus: 'blackout',
-    jumlah: 10,
-  },
-  {
-    id: 102,
-    name: 'SUTET Kalimantan',
-    lat: -1.5,
-    lon: 113.0,
-    type: 'transmisi',
-    status: 'proyek',
-    kasus: 'psn',
-    jumlah: 3,
-  },
-];
 
 export default function Leaflet() {
   const [map, setMap] = useState<L.Map | null>(null);
   const [layerGroup, setLayerGroup] = useState<L.LayerGroup | null>(null);
   const [type, setType] = useState('semua');
   const [status, setStatus] = useState('semua');
-  const [heatType, setHeatType] = useState('semua');
+  //   const [heatType, setHeatType] = useState('semua');
+
+  const { data } = masterPembangkitQueries.situationData.useQuery();
+  const dataPembangkit = useMemo(() => {
+    return data?.pembangkit;
+  }, [data]);
+  const dataTransmisi = useMemo(() => {
+    return data?.transmisi
+      .filter((t) => t.koordinat.length > 0)
+      .map(({ koordinat, ...rest }) => ({
+        ...rest,
+        latitude: koordinat[0][0],
+        longitude: koordinat[0][1],
+      }));
+  }, [data]);
 
   const getColor = (status: string) => {
     switch (status) {
-      case 'aktif':
+      case 'Aktif':
         return 'green';
-      case 'proyek':
+      case 'Project':
         return 'orange';
-      case 'shutdown':
+      case 'Tutup':
         return 'red';
       default:
         return 'gray';
@@ -126,9 +85,9 @@ export default function Leaflet() {
     layerGroup.clearLayers();
 
     let combinedData = [];
-    if (type === 'semua' || type === 'pembangkit')
+    if (dataPembangkit && (type === 'semua' || type === 'pembangkit'))
       combinedData.push(...dataPembangkit);
-    if (type === 'semua' || type === 'transmisi')
+    if (dataTransmisi && (type === 'semua' || type === 'transmisi'))
       combinedData.push(...dataTransmisi);
 
     if (status !== 'semua') {
@@ -137,7 +96,7 @@ export default function Leaflet() {
 
     // Marker per titik
     combinedData.forEach((d) => {
-      L.circleMarker([d.lat, d.lon], {
+      L.circleMarker([d.latitude, d.longitude], {
         radius: 8,
         fillColor: getColor(d.status),
         color: '#000',
@@ -145,9 +104,7 @@ export default function Leaflet() {
         opacity: 1,
         fillOpacity: 0.8,
       })
-        .bindPopup(
-          `<b>${d.name}</b><br>Tipe: ${d.type}<br>Status: ${d.status}<br>Kasus: ${d.kasus}`,
-        )
+        .bindPopup(`<b>${d.nama}</b><br>Tipe: ${d.tipe}<br>Status: ${d.status}`)
         .addTo(layerGroup);
     });
 
@@ -166,7 +123,7 @@ export default function Leaflet() {
     //     layerGroup,
     //   );
     // }
-  }, [map, layerGroup, type, status, heatType]);
+  }, [map, layerGroup, type, status, dataPembangkit, dataTransmisi]);
 
   return (
     <div className="relative text-black">
@@ -181,12 +138,12 @@ export default function Leaflet() {
         <label>Status</label>
         <select onChange={(e) => setStatus(e.target.value)}>
           <option value="semua">Semua</option>
-          <option value="aktif">Aktif</option>
-          <option value="proyek">Proyek</option>
-          <option value="shutdown">Shutdown</option>
+          <option value="Aktif">Aktif</option>
+          <option value="Project">Proyek</option>
+          <option value="Tutup">Shutdown</option>
         </select>
 
-        <label>Kasus ATHG</label>
+        {/* <label>Kasus ATHG</label>
         <select onChange={(e) => setHeatType(e.target.value)}>
           <option value="semua">Semua</option>
           <option value="blackout">Blackout</option>
@@ -194,7 +151,7 @@ export default function Leaflet() {
           <option value="mangkarak">Mangkarak</option>
           <option value="distribusi">Distribusi</option>
           <option value="psn">PSN</option>
-        </select>
+        </select> */}
       </div>
       <div id="map" className="h-[80vh] w-full"></div>
     </div>

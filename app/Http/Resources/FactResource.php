@@ -14,6 +14,8 @@ class FactResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return array_merge(parent::toArray($request), [
+            'pembangkit' => new MasterPembangkitResource($this->whenLoaded('pembangkit')),
+        ]);
     }
 }

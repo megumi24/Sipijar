@@ -16,6 +16,7 @@ class MasterPembangkitResource extends JsonResource
     {
         return array_merge(parent::toArray($request), [
             'optionLabel' => $this->optionLabel,
+            'facts' => FactResource::collection($this->whenLoaded('facts')),
         ]);
     }
 }

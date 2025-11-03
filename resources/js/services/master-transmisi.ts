@@ -7,6 +7,9 @@ export interface MasterTransmisi {
   nama: string;
   panjang_transmisi?: number;
   tipe?: string;
+  status: string;
+  koordinat: [number, number][];
+  kode?: string;
 }
 
 export interface MasterTransmisiQueryParams {

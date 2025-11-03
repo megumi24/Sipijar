@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FactOperational extends Model
 {
@@ -71,5 +72,10 @@ class FactOperational extends Model
     {
         $escaped = array_map(fn($v) => '"' . str_replace('"', '\"', $v) . '"', $value);
         return '{' . implode(',', $escaped) . '}';
+    }
+
+    public function pembangkit(): BelongsTo
+    {
+        return $this->belongsTo(MasterPembangkit::class, 'infrastructure_code', 'kode');
     }
 }
