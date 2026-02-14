@@ -9,7 +9,7 @@ fi
 
 # Only generate key if not already set
 if [ -z "$APP_KEY" ]; then
-  php artisan key:generate --ansi
+  php artisan key:generate --force --ansi
 fi
 
 php artisan migrate --force --no-interaction --ansi
