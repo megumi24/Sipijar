@@ -1,5 +1,7 @@
 # 1. Build Stage
-FROM composer:2 AS build
+FROM php:8.3-cli-alpine AS build
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 WORKDIR /app
 
 ENV APP_NAME=SIPIJAR

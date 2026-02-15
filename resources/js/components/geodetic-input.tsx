@@ -1,11 +1,14 @@
-import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
+import {
+  InputNumber,
+  InputNumberValueChangeEvent,
+} from 'primereact/inputnumber';
 
 interface GeodeticInputProps {
   label?: string;
   latValue?: number;
   longValue?: number;
-  onLatChange?: (e: InputNumberChangeEvent) => void;
-  onLongChange?: (e: InputNumberChangeEvent) => void;
+  onLatChange?: (e: InputNumberValueChangeEvent) => void;
+  onLongChange?: (e: InputNumberValueChangeEvent) => void;
   latInvalid?: boolean;
   longInvalid?: boolean;
 }
@@ -23,7 +26,7 @@ const GeodeticInput = (props: GeodeticInputProps) => {
           className="w-full"
           maxFractionDigits={20}
           value={props.latValue}
-          onChange={props.onLatChange}
+          onValueChange={props.onLatChange}
           invalid={props.latInvalid}
         />
         <InputNumber
@@ -31,7 +34,7 @@ const GeodeticInput = (props: GeodeticInputProps) => {
           className="w-full"
           maxFractionDigits={20}
           value={props.longValue}
-          onChange={props.onLongChange}
+          onValueChange={props.onLongChange}
           invalid={props.longInvalid}
         />
         <span className="p-inputgroup-addon">Longitude</span>

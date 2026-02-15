@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MasterTransmisiResource;
 use App\Models\MasterTransmisi;
 use App\Traits\HasCustomValidator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
@@ -52,5 +53,26 @@ class MasterTransmisiController extends Controller
         ], [
             'redirect' => route('transmisi.index'),
         ]);
+    }
+
+    public function update(Request $request, MasterTransmisi $masterTransmisi)
+    {
+        Gate::authorize('manage');
+
+        $redirectTo = route('transmisi.edit', ['transmisi' => $masterTransmisi->id]);
+        $validated = $this->validate($request, [
+            'nama' => 'required|string',
+            'panjang_transmisi' => 'nullable|numeric',
+            'tipe' => 'required|string',
+            'sistem' => 'nullable|string',
+            'status' => 'required|string',
+            'koordinat' => 'nullable|array',
+        ], $redirectTo);
+        if ($validated instanceof RedirectResponse) return $validated;
+
+        $masterTransmisi->updateOrFail($validated);
+
+        return redirect($redirectTo, 303)
+            ->with('status', 'success');
     }
 }

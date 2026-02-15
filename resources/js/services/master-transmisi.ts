@@ -2,21 +2,37 @@ import { get, PaginatedJSONResponse } from '@/lib/api';
 import { queriesFactory } from '@/lib/factories/services';
 import { index } from '@/routes/api/master-transmisi';
 
+export type ServerMasterTransmisi = MasterTransmisi;
+
 export interface MasterTransmisi {
   id: number;
   nama: string;
   panjang_transmisi?: number;
-  tipe?: string;
+  tipe: string;
+  sistem?: string;
+  tender?: string;
+  investasi?: string;
   status: string;
-  koordinat: [number, number][];
+  koordinat?: [number, number][];
   kode?: string;
 }
+
+export type MasterTransmisiForm = Omit<
+  Partial<MasterTransmisi>,
+  'koordinat'
+> & {
+  koordinat?: [number | undefined, number | undefined][];
+};
 
 export interface MasterTransmisiQueryParams {
   search?: string;
   page?: number;
   perPage?: number;
 }
+
+export const transformMasterTransmisi = ({
+  ...item
+}: ServerMasterTransmisi): MasterTransmisi => ({ ...item });
 
 export const masterTransmisiQueries = queriesFactory({
   index: {
@@ -28,8 +44,8 @@ export const masterTransmisiQueries = queriesFactory({
       const { data, ...pagination } = (await get(index().url, {
         params,
         signal,
-      })) as PaginatedJSONResponse<MasterTransmisi[]>;
-      return { data: data as MasterTransmisi[], ...pagination };
+      })) as PaginatedJSONResponse<ServerMasterTransmisi[]>;
+      return { data: data.map(transformMasterTransmisi), ...pagination };
     },
   },
 });
