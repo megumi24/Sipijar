@@ -7,6 +7,7 @@ use App\Http\Resources\MasterPembangkitResource;
 use App\Models\MasterPembangkit;
 use App\Models\MasterTransmisi;
 use App\Traits\HasCustomValidator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
@@ -58,6 +59,34 @@ class MasterPembangkitController extends Controller
         ], [
             'redirect' => route('pembangkit.index'),
         ]);
+    }
+
+    public function update(Request $request, MasterPembangkit $pembangkit)
+    {
+        Gate::authorize('manage');
+
+        $redirectTo = route('pembangkit.edit', ['pembangkit' => $pembangkit->id]);
+        $validated = $this->validate($request, [
+            'kode' => 'required',
+            'nama' => 'required|string',
+            'tipe' => 'required|string',
+            'kapasitas' => 'nullable|string',
+            'pengelola' => 'nullable|string',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'provinsi' => 'nullable|string',
+            'lokasi' => 'nullable|string',
+            'deskripsi' => 'nullable|string',
+            'sistem_kelistrikan' => 'nullable|string',
+            'status' => 'required|string',
+            'alias' => 'nullable|string',
+        ], $redirectTo);
+        if ($validated instanceof RedirectResponse) return $validated;
+
+        $pembangkit->updateOrFail($validated);
+
+        return redirect($redirectTo, 303)
+            ->with('status', 'success');
     }
 
     public function getSituationData()
